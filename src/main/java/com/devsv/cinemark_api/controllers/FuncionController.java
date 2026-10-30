@@ -21,7 +21,6 @@ public class FuncionController {
 
     private final IFuncionService funcionService;
 
-    // OSWALDO - ARQUITECTURA: controlador expone endpoints REST y delega al servicio (patrón Controller -> Service)
     @GetMapping
     public ResponseEntity<List<FuncionDTO>> findAll() {
         return ResponseEntity.ok(funcionService.findAll());

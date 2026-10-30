@@ -82,36 +82,29 @@ public class SecurityConfig {
 
         http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable)
 
-                // DANIEL - SEGURIDAD: sesión stateless para usar JWT sin JSESSIONID
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authenticationProvider(authenticationProvider)
 
-                // DANIEL - SEGURIDAD: configuración de autorización por roles (ADMIN/CLIENTE) y endpoints públicos
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // DANIEL - SEGURIDAD: login y registro públicos sin autenticación
                         .requestMatchers("/api/auth/register", "/api/auth/login", "/error").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
 
-                        // DANIEL - SEGURIDAD: consulta de catálogo público (películas, funciones, géneros, productos)
                         .requestMatchers(HttpMethod.GET, "/api/peliculas/**", "/api/funciones/**", "/api/generos/**", "/api/productos/**")
                         .permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/promociones/vigentes").permitAll()
 
-                        // DANIEL - SEGURIDAD: administración de catálogo solo ADMIN
                         .requestMatchers("/api/peliculas/**", "/api/funciones/**", "/api/generos/**", "/api/productos/**")
                         .hasRole("ADMIN")
 
-                        // DANIEL - SEGURIDAD: disponibilidad de asientos para ADMIN y CLIENTE
                         .requestMatchers(HttpMethod.GET, "/api/asientos/funcion/*/disponibilidad")
                         .hasAnyRole("ADMIN", "CLIENTE")
 
-                        // DANIEL - SEGURIDAD: compras - listar todas solo ADMIN, mis compras y crear para ambos roles
                         .requestMatchers(HttpMethod.GET, "/api/compras").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/compras/mis-compras").hasAnyRole("ADMIN", "CLIENTE")
@@ -124,7 +117,6 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/compras/**").hasRole("ADMIN")
 
-                        // DANIEL - SEGURIDAD: pagos - consultas y creación para ambos, administración solo ADMIN
                         .requestMatchers(HttpMethod.GET, "/api/pagos").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/pagos/compra/*").hasAnyRole("ADMIN", "CLIENTE")
@@ -135,7 +127,6 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/pagos/**").hasRole("ADMIN")
 
-                        // DANIEL - SEGURIDAD: boletos - reserva para ambos, gestión completa solo ADMIN
                         .requestMatchers(HttpMethod.GET, "/api/boletos/funcion/*").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/boletos/compra/*").hasAnyRole("ADMIN", "CLIENTE")
@@ -146,7 +137,6 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/boletos/**").hasRole("ADMIN")
 
-                        // DANIEL - SEGURIDAD: perfil de cliente solo rol CLIENTE
                         .requestMatchers(HttpMethod.GET, "/api/usuarios/perfil").hasRole("CLIENTE")
 
                         .requestMatchers(HttpMethod.PUT, "/api/usuarios/perfil").hasRole("CLIENTE")
@@ -154,13 +144,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/comprobantes/**", "/api/perfil/**", "/api/historial/**")
                         .hasAnyRole("ADMIN", "CLIENTE")
 
-                        // DANIEL - SEGURIDAD: endpoints administrativos completos solo ADMIN
                         .requestMatchers("/api/roles/**", "/api/usuarios/**", "/api/inventarios/**", "/api/movimientos-inventario/**", "/api/categorias-productos/**", "/api/salas/**", "/api/asientos/**", "/api/dashboard/admin/**", "/api/reportes/**", "/api/incidencias/**", "/api/limpieza-salas/**", "/api/promociones/**")
                         .hasRole("ADMIN")
 
                         .anyRequest().authenticated())
 
-                // DANIEL - SEGURIDAD: filtro JWT antes del filtro de usuario/contraseña estándar
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

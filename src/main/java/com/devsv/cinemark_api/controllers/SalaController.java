@@ -20,7 +20,6 @@ public class SalaController {
 
     private final ISalaService salaService;
 
-    // OSWALDO - ARQUITECTURA: mismo patrón Controller -> Interface -> Service para gestión de salas
     @GetMapping
     public ResponseEntity<List<SalaDTO>> findAll() {
         return ResponseEntity.ok(salaService.findAll());

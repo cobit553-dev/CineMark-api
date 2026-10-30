@@ -40,7 +40,6 @@ public class PeliculaService implements IPeliculaService {
     private final PeliculaGeneroRepository peliculaGeneroRepository;
     private final PeliculaMapper peliculaMapper;
 
-    // OSWALDO - ARQUITECTURA: implementa la interfaz, contiene lógica de negocio y usa repositorios/mappers
     @Override
     @Transactional(readOnly = true)
     public List<PeliculaDTO> findAll() {
@@ -111,7 +110,6 @@ public class PeliculaService implements IPeliculaService {
         eliminarImagen(imagen);
     }
 
-    // OSWALDO - ARQUITECTURA: lógica privada de negocio (validaciones, mapeo, persistencia, relaciones)
     private void aplicarDatos(Pelicula pelicula, PeliculaRequestDTO dto) {
         pelicula.setClasificacion(dto.getClasificacion().trim());
         pelicula.setDuracion(dto.getDuracion());
@@ -190,7 +188,6 @@ public class PeliculaService implements IPeliculaService {
         });
     }
 
-    // OSWALDO - ARQUITECTURA: usa Mapper para convertir Entity a DTO y enriquece con géneros
     private PeliculaDTO convertirConGeneros(Pelicula pelicula) {
         PeliculaDTO dto = peliculaMapper.toDTO(pelicula);
 

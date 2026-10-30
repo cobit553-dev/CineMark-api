@@ -33,7 +33,6 @@ public class AuthService implements IAuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    // DANIEL - SEGURIDAD: registra nuevo cliente, hashea contraseña, asigna rol CLIENTE y genera JWT
     @Override
     @Transactional
     public LoginResponseDTO registrarCliente(RegistroClienteDTO dto) {
@@ -57,7 +56,6 @@ public class AuthService implements IAuthService {
         return construirRespuesta(guardado, token);
     }
 
-    // DANIEL - SEGURIDAD: autentica con AuthenticationManager (BCrypt), obtiene principal y genera JWT
     @Override
     @Transactional(readOnly = true)
     public LoginResponseDTO login(LoginRequestDTO dto) {

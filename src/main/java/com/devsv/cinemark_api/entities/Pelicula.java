@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// OSWALDO - ARQUITECTURA: entidad JPA mapeada a tabla 'peliculas', base del modelo de dominio
 public class Pelicula {
 
     @Id

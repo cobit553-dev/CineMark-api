@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: cinemark-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-cinemark_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - cinemark-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-cinemark_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    image: cinemark-api
+    container_name: cinemark-api
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME:-cinemark_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-1234}
+      JWT_SECRET: ${JWT_SECRET:-CineMarkJwtSecretKey2026SeguridadAplicacionWebClaveMuySegura}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-864000000}
+      CINEMARK_ADMIN_EMAIL: ${CINEMARK_ADMIN_EMAIL:-admin@cinemark.com}
+      CINEMARK_ADMIN_PASSWORD: ${CINEMARK_ADMIN_PASSWORD:-Admin12345*}
+      SERVER_PORT: "8081"
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 10MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 10MB
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cinemark-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  cinemark-network:
+    driver: bridge

@@ -22,7 +22,6 @@ public class PeliculaController {
 
     private final IPeliculaService peliculaService;
 
-    // OSWALDO - ARQUITECTURA: el controlador delega la lógica de negocio al servicio (capa de presentación)
     @GetMapping
     public ResponseEntity<List<PeliculaDTO>> findAll() {
 
@@ -35,7 +34,6 @@ public class PeliculaController {
         return ResponseEntity.ok(peliculaService.findById(id));
     }
 
-    // OSWALDO - ARQUITECTURA: recibe DTO de request, valida y delega creación al servicio
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> create(@Valid @ModelAttribute PeliculaRequestDTO dto) {
 

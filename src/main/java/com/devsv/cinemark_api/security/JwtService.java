@@ -23,7 +23,6 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    // DANIEL - JWT: genera token firmado con claims de usuario (id, email, nombre, apellido, rol)
     public String generarToken(UsuarioPrincipal principal) {
 
         Date ahora = new Date();
@@ -35,7 +34,6 @@ public class JwtService {
                 .compact();
     }
 
-    // DANIEL - JWT: valida firma y expiración, retorna claims para extraer datos del usuario
     public Claims validarYExtraerClaims(String token) {
 
         return Jwts.parser().verifyWith(obtenerLlave()).build().parseSignedClaims(token).getPayload();

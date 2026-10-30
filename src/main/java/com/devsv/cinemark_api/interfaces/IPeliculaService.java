@@ -5,7 +5,6 @@ import com.devsv.cinemark_api.dto.PeliculaRequestDTO;
 
 import java.util.List;
 
-// OSWALDO - ARQUITECTURA: contrato (interface) que define operaciones CRUD, desacopla controlador de implementación
 public interface IPeliculaService {
 
     List<PeliculaDTO> findAll();

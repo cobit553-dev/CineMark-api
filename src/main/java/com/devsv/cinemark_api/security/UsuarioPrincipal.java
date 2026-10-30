@@ -20,7 +20,6 @@ public class UsuarioPrincipal implements UserDetails {
     private final String rol;
     private final Boolean estado;
 
-    // DANIEL - SEGURIDAD: adapta entidad Usuario a UserDetails de Spring Security
     public UsuarioPrincipal(Usuario usuario) {
         this.id = usuario.getId();
         this.email = usuario.getEmail();
@@ -31,7 +30,6 @@ public class UsuarioPrincipal implements UserDetails {
         this.estado = usuario.getEstado();
     }
 
-    // DANIEL - SEGURIDAD: autoridad con prefijo ROLE_ para compatibilidad con hasRole/hasAnyRole
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + rol));
@@ -57,7 +55,6 @@ public class UsuarioPrincipal implements UserDetails {
         return true;
     }
 
-    // DANIEL - SEGURIDAD: habilita/deshabilita cuenta según estado del usuario en BD
     @Override
     public boolean isEnabled() {
         return Boolean.TRUE.equals(estado);

@@ -23,25 +23,21 @@ public class CompraController {
 
     private final ICompraService compraService;
 
-    // KEVIN - COMPRA: listar todas las compras (solo ADMIN)
     @GetMapping
     public ResponseEntity<List<CompraDTO>> findAll() {
         return ResponseEntity.ok(compraService.findAll());
     }
 
-    // KEVIN - COMPRA: listar compras del cliente autenticado
     @GetMapping("/mis-compras")
     public ResponseEntity<List<CompraDTO>> misCompras(Authentication authentication) {
         return ResponseEntity.ok(compraService.findMisCompras(authentication.getName()));
     }
 
-    // KEVIN - COMPRA: obtener detalle de una compra (valida propiedad)
     @GetMapping("/{id}")
     public ResponseEntity<CompraDTO> findById(@PathVariable Long id, Authentication authentication) {
         return ResponseEntity.ok(compraService.findById(id, authentication.getName()));
     }
 
-    // KEVIN - COMPRA: crea nueva compra con productos, reserva stock y calcula totales con promociones
     @PostMapping
     public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody CompraRequestDTO dto,
             Authentication authentication) {
@@ -56,7 +52,6 @@ public class CompraController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // KEVIN - COMPRA: actualiza productos de compra pendiente, ajusta stock e inventario
     @PutMapping("/{id}/productos")
     public ResponseEntity<Map<String, Object>> actualizarProductos(@PathVariable Long id,
             @Valid @RequestBody CompraProductosRequestDTO dto, Authentication authentication) {

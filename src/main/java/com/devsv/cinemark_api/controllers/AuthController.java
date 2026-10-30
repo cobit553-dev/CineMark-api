@@ -21,7 +21,6 @@ public class AuthController {
 
     private final IAuthService authService;
 
-    // DANIEL - SEGURIDAD: endpoint público para registro de nuevos clientes (rol CLIENTE por defecto)
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@Valid @RequestBody RegistroClienteDTO dto) {
 
@@ -34,7 +33,6 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // DANIEL - SEGURIDAD: endpoint público para login, valida credenciales y retorna JWT
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequestDTO dto) {
 

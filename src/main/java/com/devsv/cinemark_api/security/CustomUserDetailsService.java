@@ -15,7 +15,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
 
-    // DANIEL - SEGURIDAD: carga usuario por email para autenticación (login), lanza excepción si no existe
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) {

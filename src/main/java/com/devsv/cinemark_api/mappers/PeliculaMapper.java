@@ -8,7 +8,6 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-// OSWALDO - ARQUITECTURA: Mapper (MapStruct) convierte automáticamente Entity <-> DTO, ignora campos calculados
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PeliculaMapper {
 

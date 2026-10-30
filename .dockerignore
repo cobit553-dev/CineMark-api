@@ -3,3 +3,7 @@ target
 .vscode
 .idea
 *.log
+.mvn
+mvnw
+mvnw.cmd
+.env

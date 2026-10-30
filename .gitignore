@@ -31,3 +31,21 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Docker & Environment ###
+.env
+# Configuración local
+.env
+.env.*
+!.env.example
+
+# Archivos generados
+target/
+.idea/
+*.iml
+
+# Imágenes subidas por usuarios
+uploads/
+
+# Respaldos
+*.backup
